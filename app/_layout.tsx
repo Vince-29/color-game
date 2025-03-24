@@ -1,5 +1,7 @@
-import { Stack } from 'expo-router';
+import {Slot} from 'expo-router';
 
 export default function Layout() {
-  return <Stack />;
+  return <Slot />;
 }
+
+

@@ -1,16 +1,14 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
+import { Button } from '~/components/ui/Button';
 
 import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
 
-export default function Details() {
-  const { name } = useLocalSearchParams();
+export default function () {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Details' }} />
       <Container>
-        <ScreenContent path="screens/details.tsx" title={`Showing details for user ${name}`} />
+        <Button title="PLACE BET" />
       </Container>
     </>
   );
