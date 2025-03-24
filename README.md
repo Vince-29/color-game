@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/6078c589-a1b3-47e7-8553-4fe332d831e0)# Expo Color Game
+
+# Expo Color Game
 
 React Native Expo App of the infamous Color Game of Peryahan. The goal is to sustain and earn as much as possible!
 
