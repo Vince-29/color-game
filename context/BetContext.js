@@ -1,33 +1,77 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const BetContext = createContext();
 
 export const BetProvider = ({ children }) => {
   const [bet, setBet] = useState('');
   const [color, setColor] = useState('');
-  const [gameIsOver, setGameIsOver] = useState(true);
-  const [earnings, setEarnings] = useState(0);
+  const [gameIsOver, setGameIsOver] = useState(false);
+  const [earnings, setEarnings] = useState(20);
+  const [results, setResults] = useState([]);
 
-  function handleBet(bet) {
-    setBet(bet);
+  // Reset game if earnings drops to 0
+  useEffect(() => {
+    if (earnings <= 0) {
+      setGameIsOver(true);
+    }
+  }, [earnings]);
+
+  function handleBet(value) {
+    setBet(value);
   }
 
-  function handleColor(color) {
-    setColor(color);
+  function handleColor(selectedColor) {
+    setColor(selectedColor);
   }
 
-  function gameOverHandler(numberOfRounds) {
-    setGameIsOver(true);
-    setGuessRounds(numberOfRounds);
+  function generateRandomColors() {
+    const availableColors = [
+      'red',
+      'green',
+      'blue',
+      'yellow',
+      'purple',
+      'pink',
+      'orange',
+      'aqua',
+      'gray',
+    ];
+
+    const randomResults = [];
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * availableColors.length);
+      randomResults.push(availableColors[randomIndex]);
+    }
+
+    setResults(randomResults);
+    calculateEarnings(randomResults);
   }
 
-  function startNewGameHandler() {
-    setUserNumber(0);
-    setGuessRounds(0);
+  function calculateEarnings(results) {
+    if (!color || !bet) return;
+
+    const betAmount = parseInt(bet, 10);
+    if (isNaN(betAmount)) return;
+
+    const matches = results.filter((result) => result === color).length;
+
+    if (matches === 3) {
+      setEarnings((prev) => prev + betAmount * 3);
+    } else if (matches === 2) {
+      setEarnings((prev) => prev + betAmount * 2);
+    } else if (matches === 1) {
+      setEarnings((prev) => prev + betAmount);
+    } else {
+      setEarnings((prev) => prev - betAmount);
+    }
   }
 
-  function handleEarnings(earnings) {
-    setEarnings(earnings);
+  function resetGame() {
+    setBet('');
+    setColor('');
+    setGameIsOver(false);
+    setEarnings(20);
+    setResults([]);
   }
 
   const value = {
@@ -35,11 +79,11 @@ export const BetProvider = ({ children }) => {
     color,
     earnings,
     gameIsOver,
+    results,
     handleBet,
     handleColor,
-    handleEarnings,
-    gameOverHandler,
-    startNewGameHandler,
+    generateRandomColors,
+    resetGame,
   };
 
   return <BetContext.Provider value={value}>{children}</BetContext.Provider>;

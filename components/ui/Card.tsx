@@ -1,23 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, Pressable, PressableProps } from 'react-native';
+import { StyleSheet, Pressable, PressableProps, View } from 'react-native';
 
 type CardProps = {
     color: string;
     value: string;
+    isSelected?: boolean;
     onPress?: () => void;
 } & PressableProps;
 
-export const Card = ({ color, onPress, ...rest }: CardProps) => {
+export const Card = ({ color, isSelected, onPress, ...rest }: CardProps) => {
     return (
         <Pressable 
             style={({ pressed }) => [
                 styles.card, 
                 { backgroundColor: color },
-                pressed && styles.pressed
+                pressed && styles.pressed,
+                isSelected && styles.selected
             ]}
             onPress={onPress}
             {...rest}
         >
+            {isSelected && <View style={styles.selectionIndicator} />}
         </Pressable>
     );
 };
@@ -40,6 +43,19 @@ const styles = StyleSheet.create({
     },
     pressed: {
         opacity: 0.7,
+    },
+    selected: {
+        borderWidth: 3,
+        borderColor: '#FFFFFF',
+    },
+    selectionIndicator: {
+        position: 'absolute',
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: '#FFFFFF',
+        right: 10,
+        top: 10,
     },
     text: {
         color: '#FFFFFF',

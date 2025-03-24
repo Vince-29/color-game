@@ -8,8 +8,8 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    gap: 16,
+    padding: 15,
+    gap: 10,
     backgroundColor: '#F3F4F6',
   },
 });

@@ -3,8 +3,11 @@
 import React from 'react';
 import { FlatList, StyleSheet, View, Dimensions } from 'react-native';
 import { Card } from './Card';
+import { useBet } from '~/context/BetContext';
 
 export const ColorGridCard = () => {
+    const { color, handleColor } = useBet();
+    
     const colors = [
         { id: '1', color: 'red', value: 'red' },
         { id: '2', color: 'green', value: 'green' },
@@ -13,7 +16,7 @@ export const ColorGridCard = () => {
         { id: '5', color: 'purple', value: 'purple' },
         { id: '6', color: 'pink', value: 'pink' },
         { id: '7', color: 'orange', value: 'orange' },
-        { id: '8', color: 'brown', value: 'brown' },
+        { id: '8', color: 'aqua', value: 'aqua' },
         { id: '9', color: 'gray', value: 'gray' },
     ];
 
@@ -25,7 +28,12 @@ export const ColorGridCard = () => {
 
     const renderItem = ({ item }: { item: ColorItem }) => (
         <View style={styles.cardContainer}>
-            <Card color={item.color} value={item.value} />
+            <Card 
+                color={item.color} 
+                value={item.value} 
+                isSelected={color === item.value}
+                onPress={() => handleColor(item.value)} 
+            />
         </View>
     );
 
@@ -52,5 +60,4 @@ const styles = StyleSheet.create({
         padding: 5,
         height: Dimensions.get('window').width / 3.5,
     },
-        
 });
